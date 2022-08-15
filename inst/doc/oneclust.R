@@ -1,5 +1,10 @@
-## ---- echo = FALSE------------------------------------------------------------
-knitr::opts_chunk$set(fig.asp = 10/16, eval = TRUE)
+## ---- include=FALSE-----------------------------------------------------------
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  fig.asp = 10 / 16,
+  eval = TRUE
+)
 
 ## ---- message=FALSE-----------------------------------------------------------
 library("oneclust")
@@ -56,15 +61,19 @@ i <- 1:n
 y <- (i > 20 & i < 30) + 5 * (i > 50 & i < 70) + rnorm(n, sd = 0.1)
 
 ## -----------------------------------------------------------------------------
-out <- genlasso::fusedlasso1d(y)
+# # If genlasso is available:
+# out <- genlasso::fusedlasso1d(y)
+out <- readRDS("out.rds")
 
 ## -----------------------------------------------------------------------------
-beta1 <- coef(out, lambda = 1.5)$beta
+# beta1 <- coef(out, lambda = 1.5)$beta
+beta1 <- readRDS("beta1.rds")
 plot(beta1)
 abline(h = 0)
 
 ## -----------------------------------------------------------------------------
-beta2 <- genlasso::softthresh(out, lambda = 1.5, gamma = 1)
+# beta2 <- genlasso::softthresh(out, lambda = 1.5, gamma = 1)
+beta2 <- readRDS("beta2.rds")
 grp <- as.integer(beta2 != 0) + 1L
 plot(beta2, col = cud(grp))
 abline(h = 0)
