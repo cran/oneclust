@@ -1,4 +1,4 @@
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
   eval = TRUE
 )
 
-## ---- message=FALSE-----------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 library("oneclust")
 
 ## -----------------------------------------------------------------------------
@@ -23,9 +23,9 @@ head(test)
 k <- 32
 level_hist <- table(train$postcode)
 level_new <- oneclust(level_hist, k)$cluster
-feature_tr <- level_new[match(train$postcode, names(level_hist))] %>%
-  as.character() %>%
-  ordered(levels = as.character(1:k))
+feature_tr_levels <- as.character(1:k)
+feature_tr <- as.character(level_new[match(train$postcode, names(level_hist))])
+feature_tr <- ordered(feature_tr, levels = feature_tr_levels)
 
 ## -----------------------------------------------------------------------------
 op <- par(las = 1)
@@ -39,9 +39,8 @@ sum(train$is_rare)
 sum(table(feature_tr)[1:5])
 
 ## -----------------------------------------------------------------------------
-feature_te <- level_new[match(test$postcode, names(level_hist))] %>%
-  as.character() %>%
-  ordered(levels = as.character(1:k))
+feature_te <- as.character(level_new[match(test$postcode, names(level_hist))])
+feature_te <- ordered(feature_te, levels = feature_tr_levels)
 
 ## -----------------------------------------------------------------------------
 op <- par(las = 1)
